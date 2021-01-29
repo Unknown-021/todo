@@ -1,9 +1,14 @@
-export interface TodoItem {
-  todoTitle: string,
-  done: boolean
+export interface IBaseFile{
+  size: number,
+  name: string,
+  type: string,
+  url: string
 }
 
-export interface TodoList {
-  [index: number]: TodoItem;
+export interface TodoItem {
+  id?: string,
+  todoTitle: string,
+  done: boolean,
+  attachments:IBaseFile[]
 }
 
