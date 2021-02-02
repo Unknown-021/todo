@@ -11,7 +11,7 @@
         <v-textarea 
           v-model="currentTodo.description"
           solo name="input-7-4" 
-          label="Text here"
+          label="Description"
         >
         </v-textarea>
       </div>

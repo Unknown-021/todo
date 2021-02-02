@@ -43,11 +43,15 @@ export default class Home extends Vue {
         attachments: []
         }
     }
-    public addTodo(value: string): void {
-      if(value){
-        this.$store.commit("ADD_TODO", this.newTodo);
-        this.resetTodo();
-      }
+    // public addTodo(value: string): void {
+    //   if(value){
+    //     this.$store.commit("ADD_TODO", this.newTodo);
+    //     this.resetTodo();
+    //   }
+    // }
+    public async addTodo() {
+      await this.$store.dispatch("addTodo", this.newTodo);
+      this.resetTodo();
     }
 }
 </script>

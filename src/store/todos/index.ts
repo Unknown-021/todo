@@ -1,17 +1,27 @@
+import { actions } from './actions';
 import { getters } from '@/store/todos/getters';
 import { mutations } from "./mutations";
 import { rootState } from "@/store/";
 import { Module } from "vuex";
 import { TodoItem } from "@/store/todos/types";
+import { getDB } from '@/api/idb';
 
-const state = () => ({
-  todos: [] as TodoItem[]
-});
+type Await<T> = T extends {
+  then(onfulfilled?: (value: infer U) => unknown): unknown;
+} ? U : T;
 
-export const todos: Module<TodosState, ReturnType<typeof rootState>> = {
-  state: state(),
-  mutations,
-  getters,
+const state = async () => {
+
+  return {
+    todos: [] as TodoItem[]
+  }
 };
 
-export type TodosState = ReturnType<typeof state>;
+export const todos: () => Promise<Module<TodosState, ReturnType<typeof rootState>>> = async () => ({
+  state: (await state()),
+  mutations,
+  getters,
+  actions,
+});
+
+export type TodosState = Await<ReturnType<typeof state>>;

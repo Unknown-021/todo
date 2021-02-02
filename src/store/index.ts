@@ -8,21 +8,16 @@ export const rootState = () => ({
   version: "1.0"
 });
 
-const StoreOptions: StoreOptions<ReturnType<typeof rootState>> = {
-  state: rootState(),
-  modules: {
-    todos
-  }
-};
+export default async () => {
+  const StoreOptions: StoreOptions<ReturnType<typeof rootState>> = {
+    state: rootState(),
+    modules: {
+      todos: await todos()
+    }
+  };
 
-const store = new Vuex.Store<ReturnType<typeof rootState>>(StoreOptions);
+  const store = new Vuex.Store<ReturnType<typeof rootState>>(StoreOptions);
+  return store
+}
 
-export default store;
 
-store.subscribe((mutation, state) => {
-  // console.log(mutation.type)
-  // console.log(mutation.payload)
-  const jsonStore = JSON.stringify(state);
-  localStorage.setItem("store", jsonStore);
-  // console.log(localStorage.getItem('store')); ;
-});

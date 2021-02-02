@@ -55,15 +55,14 @@ import { v4 as uuidv4 } from "uuid";
 export default class TodoList extends Vue {
   fileInput: File | null = null;
 
-  // get todos(): TodoItem[] {
-  //   return this.$store.state.todos.todos;
-  // }
   get undone(): TodoItem[] {
     return this.$store.getters.showUndoneTodo;
   }
-  public changeTodoStatus(todoItem: TodoItem): void {
-    this.$store.commit("COMPLETE_TODO", todoItem);
-    // this.$store.commit("DELETE_TODO", todoItem);
+  // public changeTodoStatus(todoItem: TodoItem): void {
+  //   this.$store.commit("COMPLETE_TODO", todoItem);
+  // }
+  public changeTodoStatus(todoItem: TodoItem) {
+    this.$store.dispatch("changeTodoStatus", todoItem);
   }
 }
 </script>
@@ -87,7 +86,7 @@ hr {
 }
 .add-new-item-link{
   position: absolute;
-  bottom: 58px;
+  bottom: 118px;
   right: 10px;
 }
 .list-item {
