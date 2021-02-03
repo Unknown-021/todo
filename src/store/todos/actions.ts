@@ -16,6 +16,8 @@ export const actions: ActionTree<TodosState, RootState> = {
     commit('COMPLETE_TODO', payload);
     (await getDB()).put("todo", payload, payload.id)
   },
-
-
+  async deleteTodo({commit}, payload: string) {
+    commit('DELETE_TODO', payload);
+    (await getDB()).delete("todo", payload)
+  }
 }

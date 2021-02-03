@@ -11,9 +11,8 @@ type Await<T> = T extends {
 } ? U : T;
 
 const state = async () => {
-
   return {
-    todos: [] as TodoItem[]
+    todos: await (await getDB()).getAll('todo') as TodoItem[]
   }
 };
 

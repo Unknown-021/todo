@@ -1,1 +1,43 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.5 100"><defs><style>.cls-1{fill:#1697f6;}.cls-2{fill:#7bc6ff;}.cls-3{fill:#1867c0;}.cls-4{fill:#aeddff;}</style></defs><title>Artboard 46</title><polyline class="cls-1" points="43.75 0 23.31 0 43.75 48.32"/><polygon class="cls-2" points="43.75 62.5 43.75 100 0 14.58 22.92 14.58 43.75 62.5"/><polyline class="cls-3" points="43.75 0 64.19 0 43.75 48.32"/><polygon class="cls-4" points="64.58 14.58 87.5 14.58 43.75 100 43.75 62.5 64.58 14.58"/></svg>
+<svg width="540" height="487" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <defs>
+  <linearGradient y2="0" x2="1" y1="0.75" x1="0.16797" id="svg_12">
+   <stop offset="0" stop-opacity="0.99609" stop-color="#7064e0"/>
+   <stop offset="1" stop-opacity="0.99609" stop-color="#499af4"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+   <stop offset="NaN" stop-opacity="0" stop-color="0"/>
+  </linearGradient>
+  <filter height="200%" width="200%" y="-50%" x="-50%" id="svg_17_blur">
+   <feGaussianBlur stdDeviation="1.1" in="SourceGraphic"/>
+  </filter>
+  <filter id="svg_16_blur">
+   <feGaussianBlur stdDeviation="1.1" in="SourceGraphic"/>
+  </filter>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="489" width="542" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <rect stroke="#000" rx="100" id="svg_1" height="456" width="457.00001" y="15.61398" x="43.2059" stroke-width="1.5" fill="url(#svg_12)"/>
+  <ellipse ry="174.9994" rx="174.9994" id="svg_14" cy="240.0514" cx="278.23527" stroke-width="23.5" stroke="#ffffff" fill="none"/>
+  <line filter="url(#svg_16_blur)" stroke-linecap="null" stroke-linejoin="null" id="svg_16" y2="321.47379" x2="270.2462" y1="243.87492" x1="192.64732" stroke-width="23.5" stroke="#ffffff" fill="none"/>
+  <line filter="url(#svg_17_blur)" stroke-linecap="null" stroke-linejoin="null" id="svg_17" y2="189.75191" x2="385.59339" y1="314.46291" x1="260.88238" stroke-width="23.5" stroke="#ffffff" fill="none"/>
+ </g>
+</svg>

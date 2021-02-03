@@ -1,7 +1,11 @@
 <template>
-  <div>
+  <div class="todo-list-container">
+    <div class="tasks">
+      Todo List
+    </div>
      <transition-group name="list" tag="p">
     <v-card
+      
       v-for="todo in undone"
       :key="todo.id"
       :item="todo"
@@ -9,14 +13,15 @@
       elevation="2"
       outlined
     >
-      <v-checkbox
-        @click="changeTodoStatus(todo)"
-        class="todo-list_item-check"
-        color="success"
-        hide-details
-      >
-      </v-checkbox>
-
+      <div>
+        <input 
+        class="checkbox-round"
+          type="checkbox"
+          id="checkbox"
+          @click="changeTodoStatus(todo)"
+        />
+        <label for="checkbox"></label>
+      </div>
       <router-link
         class="todo-list_item-title"
         :to="{ name: 'Todo', params: { id: todo.id }}"
@@ -27,7 +32,7 @@
     </v-card>
     </transition-group> 
 
-      <router-link to="/" class="add-new-item-link">
+      <!-- <router-link to="/" class="add-new-item-link">
         <v-btn
           color="pink"
           dark
@@ -35,7 +40,7 @@
         >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
-      </router-link>
+      </router-link> -->
 
   </div>
 </template>
@@ -68,6 +73,13 @@ export default class TodoList extends Vue {
 </script>
 
 <style>
+.todo-list-container{
+  display: flex;
+    flex-direction: column;
+  width: 650px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
 .card-top {
   display: flex;
   margin-left: 10px;
@@ -81,23 +93,80 @@ export default class TodoList extends Vue {
 hr {
   margin: 10px;
 }
-.v-btn--fab.v-size--default.v-btn--absolute.v-btn--bottom {
-    bottom: 52px!important;
-}
-.add-new-item-link{
-  position: absolute;
-  bottom: 118px;
-  right: 10px;
-}
 .list-item {
   display: inline-block;
   margin-right: 10px;
 }
-.list-enter-active, .list-leave-active {
+.todo-list_item .list-enter-active, .list-leave-active {
   transition: all 1s;
+  background-color: #4d4e58;
+  
 }
 .list-enter, .list-leave-to /* .list-leave-active до версии 2.1.8 */ {
   opacity: 0;
   transform: translateY(0px);
+  background-color: black;
+  
 }
+
+.todo-list_item:first-child{
+  border-top-left-radius: 20px!important;
+  border-top-right-radius: 20px!important;
+}
+.todo-list_item:last-child{
+  border-bottom-left-radius: 20px!important;
+  border-bottom-right-radius: 20px!important;
+}
+.todo-list_item{
+  background-color: #f8f8fa!important;
+  padding: 20px;
+  display: flex!important;
+}
+.todo-list_item-title{
+  margin-top: 4px;
+  margin-left: 10px;
+  color:#4d4e58!important;
+  text-decoration: none!important;
+}
+
+.checkbox-round {
+    width: 2em;
+    height: 2em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+.checkbox-round::before{
+  position: relative;
+  content: "\2713";
+  font-size: 28px;
+  bottom: 5px;
+  left: 4px;
+  color: white;
+}
+/* .checkbox-round::after{
+  position: relative;
+  content: "\2713";
+  font-size: 28px;
+  bottom: 5px;
+  left: 4px;
+  color: #66bb6a;
+} */
+.checkbox-round:checked {
+    background-color: #66bb6a;
+}
+.tasks{
+  align-self: center;
+  font-size: 2rem;
+  color: #4d4e58;
+  margin-bottom: 50px;
+}
+.leave{
+  background-color: black;
+}
+
 </style>

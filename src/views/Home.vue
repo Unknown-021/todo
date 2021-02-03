@@ -1,20 +1,16 @@
 <template>
-  <div class="container">
-      <div class="todo-title-input">
-      <v-text-field
-          v-model="newTodo.todoTitle"
-          label="Enter Task"
-          hide-details="auto"
-      ></v-text-field>
-      </div>
-      <div class="todo-add-btn">
-        <v-btn
-          @click.prevent="addTodo(newTodo.todoTitle)"
-          block>
-          Add Task
-        </v-btn>
-    </div>
-
+  <div class="app-container">
+      <h1>Welcome!</h1>
+      <h2>You can start with your first todo here:</h2>
+      <v-form @submit.prevent="addTodo(newTodo.todoTitle)">
+        <div class="todo-title-input">
+          <v-text-field
+            v-model="newTodo.todoTitle"
+            placeholder="What needs to be done?"
+            solo
+          ></v-text-field>
+        </div>
+      </v-form>
   </div>
 </template>
 
@@ -43,15 +39,21 @@ export default class Home extends Vue {
         attachments: []
         }
     }
-    // public addTodo(value: string): void {
-    //   if(value){
-    //     this.$store.commit("ADD_TODO", this.newTodo);
-    //     this.resetTodo();
-    //   }
-    // }
     public async addTodo() {
       await this.$store.dispatch("addTodo", this.newTodo);
       this.resetTodo();
     }
 }
 </script>
+
+<style>
+
+h1, h2{
+  color: #4d4e58;
+  font-weight: 900;
+}
+.todo-title-input{
+  margin-top: 20px;
+}
+
+</style>
