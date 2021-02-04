@@ -4,16 +4,28 @@ import { RootState } from './../types';
 import { ActionTree } from "vuex";
 import { TodosState } from ".";
 import { getDB } from '@/api/idb';
-
+import {db} from '@/auth/email'
 
 
 export const actions: ActionTree<TodosState, RootState> = {
   async addTodo({commit}, payload: TodoItem) {
     commit('ADD_TODO', payload);
-    (await getDB()).add("todo", payload, payload.id)
+    (await getDB()).add("todo", payload, payload.id);
+    db.collection("todos").doc(payload.id).set(payload)
+    .then(() => {
+        console.log("Document successfully written!");
+    })
+    .catch((error) => {
+        console.error("Error writing document: ", error);
+    });
+
   },
   async changeTodoStatus({commit}, payload: TodoItem) {
     commit('COMPLETE_TODO', payload);
+    (await getDB()).put("todo", payload, payload.id)
+  },
+  async addImportantStatus({commit}, payload: TodoItem) {
+    commit('ADD_IMPORTANT', payload);
     (await getDB()).put("todo", payload, payload.id)
   },
   async deleteTodo({commit}, payload: string) {

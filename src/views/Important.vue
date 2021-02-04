@@ -1,11 +1,10 @@
 <template>
   <div class="completed">
-    <h1 class="completed-h1">Your compelted tasks</h1>
+    <h1 class="completed-h1">Your important tasks</h1>
     <br>
     <br>
     <v-card
-      
-      v-for="todo in done"
+      v-for="todo in important"
       :key="todo.id"
       :item="todo"
       class="todo-list_item"
@@ -18,7 +17,6 @@
           type="checkbox"
           id="checkbox"
           checked
-          @click="changeTodoStatus(todo)"
         />
         <label for="checkbox"></label>
       </div>
@@ -28,7 +26,15 @@
       >
       {{ todo.todoTitle }}
       </router-link>
-
+      <div>
+        <input 
+          class="star" 
+          type="checkbox" 
+          :checked="!todo.important"
+          @click="addImportantStatus(todo)"
+        >
+        <br/><br/>
+      </div>
     </v-card>
   </div>
 </template>
@@ -41,8 +47,11 @@ import { TodoItem, IBaseFile } from "../store/todos/types";
 @Component
 export default class Completed extends Vue {
 
-  get done(): TodoItem[] {
-    return this.$store.getters.showDoneTodo;
+  get important(): TodoItem[] {
+    return this.$store.getters.showImportantTodo;
+  }
+  public addImportantStatus(todoItem: TodoItem) {
+     this.$store.dispatch("addImportantStatus", todoItem);
   }
 }
 </script>
@@ -62,9 +71,7 @@ export default class Completed extends Vue {
   font-weight: 300;
   text-align: center;
 }
-.done{
-  text-decoration: line-through!important;
-}
+
 .todo-list_item:first-child{
   border-top-left-radius: 20px!important;
   border-top-right-radius: 20px!important;

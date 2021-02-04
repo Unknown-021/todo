@@ -7,8 +7,10 @@ export interface IBaseFile {
 
 export interface TodoItem {
   id?: string;
+  userID?: string;
   todoTitle: string;
   descrption?: string;
   done: boolean;
+  important?: boolean;
   attachments: IBaseFile[];
 }

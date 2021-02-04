@@ -16,5 +16,9 @@ export const getters:GetterTree<TodosState, RootState> = {
     showDoneTodo(state) {
       const doneList = state.todos.filter(item => item.done == true);
       return doneList;
+    },
+    showImportantTodo(state) {
+      const importantList = state.todos.filter(item => item.important == true);
+      return importantList;
     }
 };

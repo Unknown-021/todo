@@ -14,7 +14,7 @@
       outlined
     >
       <div>
-        <input 
+        <input
         class="checkbox-round"
           type="checkbox"
           id="checkbox"
@@ -28,20 +28,17 @@
       >
       {{ todo.todoTitle }}
       </router-link>
-
+      <div>
+        <input 
+          class="star" 
+          type="checkbox" 
+          :checked="!todo.important"
+          @click="addImportantStatus(todo)"
+        >
+        <br/><br/>
+      </div>
     </v-card>
     </transition-group> 
-
-      <!-- <router-link to="/" class="add-new-item-link">
-        <v-btn
-          color="pink"
-          dark
-          fab
-        >
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-      </router-link> -->
-
   </div>
 </template>
 
@@ -63,11 +60,12 @@ export default class TodoList extends Vue {
   get undone(): TodoItem[] {
     return this.$store.getters.showUndoneTodo;
   }
-  // public changeTodoStatus(todoItem: TodoItem): void {
-  //   this.$store.commit("COMPLETE_TODO", todoItem);
-  // }
+
   public changeTodoStatus(todoItem: TodoItem) {
     this.$store.dispatch("changeTodoStatus", todoItem);
+  }
+  public addImportantStatus(todoItem: TodoItem) {
+    this.$store.dispatch("addImportantStatus", todoItem);
   }
 }
 </script>
@@ -75,7 +73,7 @@ export default class TodoList extends Vue {
 <style>
 .todo-list-container{
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
   width: 650px;
   margin: 0 auto;
   margin-top: 50px;
@@ -127,18 +125,19 @@ hr {
   margin-left: 10px;
   color:#4d4e58!important;
   text-decoration: none!important;
+  flex-grow: 1;
 }
 
 .checkbox-round {
-    width: 2em;
-    height: 2em;
-    background-color: white;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid #ddd;
-    -webkit-appearance: none;
-    outline: none;
-    cursor: pointer;
+  width: 2em;
+  height: 2em;
+  background-color: white;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
 }
 .checkbox-round::before{
   position: relative;
@@ -148,25 +147,32 @@ hr {
   left: 4px;
   color: white;
 }
-/* .checkbox-round::after{
-  position: relative;
-  content: "\2713";
-  font-size: 28px;
-  bottom: 5px;
-  left: 4px;
-  color: #66bb6a;
-} */
+
 .checkbox-round:checked {
-    background-color: #66bb6a;
+  background-color: #66bb6a;
 }
 .tasks{
   align-self: center;
   font-size: 2rem;
   color: #4d4e58;
   margin-bottom: 50px;
+  font-weight: 300;
 }
 .leave{
   background-color: black;
 }
-
+.star {
+    visibility:hidden;
+    font-size:30px;
+    cursor:pointer;
+}
+.star:before {
+   content: "\2605";
+   position: absolute;
+   visibility:visible;
+}
+.star:checked:before {
+   content: "\2606";
+   position: absolute;
+}
 </style>

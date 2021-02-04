@@ -1,11 +1,11 @@
 import { TodosState } from "./index";
 import { MutationTree } from "vuex";
 import { TodoItem, IBaseFile } from "@/store/todos/types";
-import { v4 as uuidv4 } from "uuid";
+import { v1 as uuidv1 } from "uuid";
 
 export const mutations: MutationTree<TodosState> = {
   ADD_TODO(state, payload: TodoItem) {
-    payload.id = uuidv4();
+    payload.id = uuidv1();
     state.todos.push({ ...payload });
   },
   ADD_FILE(state, payload: { id: string; file: IBaseFile }) {
@@ -27,6 +27,9 @@ export const mutations: MutationTree<TodosState> = {
   },
   COMPLETE_TODO(state, payload: TodoItem) {
     payload.done = true;
+  },
+  ADD_IMPORTANT(state, payload: TodoItem) {
+    payload.important = !payload.important;
   }
 
 };

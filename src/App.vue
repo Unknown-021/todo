@@ -8,14 +8,14 @@
           keydown
         >
           <template v-slot:activator="{ on, attrs }">
-                    <v-btn
+          <v-btn
           class="mx-2 add-todo-btn elevation-0"
           fab
           color="indigo"
           depressed
-                    v-bind="attrs"
+          v-bind="attrs"
           v-on="on"
-        >
+          >
         <v-icon dark>
           mdi-plus
         </v-icon>
@@ -27,7 +27,9 @@
         </v-card-title>
         <v-card-text>
           <v-container class="v-container-class">
-            <v-form @submit.prevent="addTodo(newTodo.todoTitle)">
+            <v-form 
+              @submit.prevent="addTodo(newTodo.todoTitle)"
+            >
                 <div class="todo-title-input__modal">
                   <v-text-field
                     v-model="newTodo.todoTitle"
@@ -109,6 +111,23 @@
             </v-btn>
         </div>
         </router-link>
+        <router-link :to="{ name: 'Important' }">
+          <div class="link">
+            <v-btn
+              class="nav__link link"
+              text
+              dark
+              depressed
+            >
+            <img
+              class="home-img"
+              :src="require('@/assets/favorite.svg')" 
+              alt=""
+            >
+            Important Todos
+            </v-btn>
+        </div>
+        </router-link>
       </v-navigation-drawer>
         <v-main>
           <v-toolbar 
@@ -121,6 +140,18 @@
             <!-- <h1>{{currentRouteName()}} </h1> -->
           </v-toolbar>
           <router-view />
+      <v-snackbar
+            v-model="snackbar.status"
+            :timeout="2000"
+          >  
+            <span>{{snackbar.text}}</span>
+            <v-btn
+              class="snack-close-button"
+              text
+              @click="snackbar.status = false"
+            >
+            Close</v-btn>
+          </v-snackbar>
         </v-main>
     </v-app>
 </template>
@@ -138,6 +169,13 @@ import { TodoItem} from "./store/todos/types";
 })
 export default class App extends Vue {
   public dialog = false;
+  public snackbar = {
+    status: false,
+    text: 'asdas',
+    timeout: 1000,
+  };
+
+
   private newTodo: TodoItem = {
     // id: uuidv4(),
     todoTitle: '',
@@ -151,8 +189,12 @@ export default class App extends Vue {
       done: false,
       attachments: []
       }
-    }
+  }
+
   public async addTodo() {
+      this.snackbar.status = true;
+      this.snackbar.text = this.newTodo.todoTitle;
+
     await this.$store.dispatch("addTodo", this.newTodo);
     this.resetTodo();
     this.dialog = false;
@@ -330,5 +372,12 @@ li{
 }
 .v-card__actions .v-btn .v-btn__content{
   color:#3844d6!important;
+}
+
+.v-snackbar{
+  margin: 0 auto;
+}
+.v-bnt .snack-close-button{
+  float: right!important;
 }
 </style>
