@@ -26,7 +26,6 @@ export const actions: ActionTree<TodosState, RootState> = {
     .catch((error: any) => {
         console.error("Error writing document: ", error);
     });
-
   },
   async changeTodoStatus({commit}, payload: TodoItem) {
     commit('COMPLETE_TODO', payload);

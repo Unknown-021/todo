@@ -5,7 +5,6 @@
       v-model="valid"
       lazy-validation
     >
-
       <v-text-field
         v-model="email"
         :rules="emailRules"
@@ -24,11 +23,36 @@
         :disabled="!valid"
         color="success"
         class="mr-4"
-        @click="this.validate"
+        @click="this.login"
       >
-        Validate
+        Login
+      </v-btn>
+      <v-btn
+        :disabled="!valid"
+        color="warning"
+        class="mr-4"
+        @click="this.register"
+      >
+        Register
       </v-btn>
     </v-form>
+     <div class="text-center">
+
+      <v-snackbar
+            v-model="snackbar.status"
+            :timeout="2000"
+      >  
+      {{ snackbar.text }}
+
+        <v-btn
+          color="blue"
+          text
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+    </v-snackbar>
+  </div>
   </div>
 </template>
 
@@ -36,14 +60,24 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { signUpWithEmailPassword, signInWithEmailPassword } from '../auth/email'
+import firebase from 'firebase/app'
+
 
 
 @Component
 export default class Login extends Vue {
+  public snackbar = {
+    status: false,
+    text: 'asdas',
+    timeout: 1000,
+  };
+
   public valid = true;
   public password = '';
   public passRules = [
     (    v: any) => !!v || 'Password is required',
+    (    v: string|any[]) => (v && v.length > 5) || 'Password must be more than 6 characters',
+
   ];
   public email = '';
   public emailRules= [
@@ -53,12 +87,42 @@ export default class Login extends Vue {
   get form(): Vue & { validate: () => boolean } {
     return this.$refs.form as Vue & { validate: () => boolean }
   }
+  get snackBarStatus(): boolean {
+    return this.snackbar;
+  }
 
-  public validate() {
-    signInWithEmailPassword(this.email, this.password)
-    // this.email = '';
-    // this.password = '';
-    this.$router.push({name:"Home"});
+  public login() {
+    firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      this.$router.push({name:"Home"});
+      this.$store.dispatch("setUser")
+    })
+    .catch((error) => {
+      this.snackbar.status = true;
+      this.snackbar.text = "Invalid email or password"
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+
+  }
+
+  public register() {
+    firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      this.$router.push({name:"Home"});
+      this.$store.dispatch("setUser")
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
+
 
   }
 

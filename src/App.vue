@@ -1,6 +1,10 @@
 <template>
     <v-app>
-      <v-navigation-drawer app class="side-bar">
+      <v-navigation-drawer 
+        app 
+        class="side-bar"
+        v-if="$route.name !== 'Login'"
+      >
         <v-dialog
           v-model="dialog"
           
@@ -133,11 +137,15 @@
           <v-toolbar 
             outlined
             class="header elevation-0"
+            v-if="$route.name !== 'Login'"
           >
             <img class="logo" src="./assets/logo.svg" alt="">
             <span class="app-name">Ultimate</span><br>
             <span class="app-name">TodoApp</span><br>
-            <!-- <h1>{{currentRouteName()}} </h1> -->
+            <v-btn
+              @click="logOut()"
+            
+            >Logout</v-btn>
           </v-toolbar>
           <router-view />
       <v-snackbar
@@ -158,11 +166,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Component from 'vue-class-component'
+import { Component } from 'vue-property-decorator'
 import TodoList from './components/TodoList.vue'
 import { TodoItem} from "./store/todos/types";
 import 'vue-class-component/hooks'
-
+import { db } from '../../auth/email';
+import firebase from 'firebase/app'
 
 
 @Component({
@@ -172,47 +181,62 @@ import 'vue-class-component/hooks'
 })
 
 export default class App extends Vue {
+  public logged = false;
   public dialog = false;
   public snackbar = {
     status: false,
     text: 'asdas',
     timeout: 1000,
   };
-
-  beforeCreate(){
-    this.$store.dispatch('setTodo');
+  get userStaus() {
+    return true
   }
+  public userID(): string{
+    return this.$store.state.user.getUserID
+  }
+  beforeCreate(){
+    this.$store.dispatch('setTodo', this.userID() );
+    const user = firebase.auth().currentUser;
+    console.log(user);
+    // if(this.$store.state.user){
+    //   this.$router.push({name: 'Login'})
+    // }
+  }
+  mounted() {
+    if(firebase.auth()){
+      this.showUserStatus();
+    }
+    console.log(this.$store.state.user.logged)
+  }
+
   private newTodo: TodoItem = {
-    // id: uuidv4(),
     todoTitle: '',
     done: false,
     attachments: []
   };
   public resetTodo(): void {
     this.newTodo = {
-      // id: uuidv4(),
       todoTitle: '',
       done: false,
       attachments: []
       }
   }
-
+  public showUserStatus(): boolean{
+    return this.$store.getters.showUserStatus
+  }
   public async addTodo() {
-      this.snackbar.status = true;
-      this.snackbar.text = this.newTodo.todoTitle;
+    this.snackbar.status = true;
+    this.snackbar.text = this.newTodo.todoTitle;
 
     await this.$store.dispatch("addTodo", this.newTodo);
     this.resetTodo();
     this.dialog = false;
   }
-  public currentRouteName():any{
-    if(this.$route.name == 'Home'){
-      return "Welcome!"
-    }
-    else{
-      return this.$route.name;
-    }
+  public logOut(): void {
+    this.$store.dispatch("logOut");
+    this.$router.push({name: 'Login'})
   }
+
 }
 </script>
 

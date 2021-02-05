@@ -1,7 +1,6 @@
 import { actions } from './actions';
 import { getters } from './getters';
 import { mutations } from "./mutations";
-import { todosFB } from './index';
 import { rootState } from "@/store/";
 import { Module } from "vuex"; 
 import { TodoItem } from "@/store/todos/types";
@@ -14,40 +13,8 @@ type Await<T> = T extends {
 } ? U : T;
 
 
-
-db.collection("todos").get().then((querySnapshot) => {
-  querySnapshot.forEach((doc) => {
-      // console.log(doc.id, " => ", doc.data());
-  });
-});
-
-
-function getTodos(): any {
-  db.collection("todos").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-    });
-  });
-}
-
-const getAll = async () => {
-  const output = await
-  db.collection("todos").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-    });
-});
-return output;
-}
-
-
-
 const state = async () => {
   return {
-    // todosFB: await (await getDB()).getAll('todo') as TodoItem[]
-    // todosFB: await (await db.collection("todos").get()) as TodoItem[]
-    // todosFB: await (await getTodos()) as TodoItem[]
     todosFB: [] as TodoItem[] | null,
   }
 };

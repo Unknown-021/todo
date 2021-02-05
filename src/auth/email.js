@@ -17,40 +17,5 @@ firebase.initializeApp(firebaseConfig);
 export const db = firebase.firestore();
 
 
-export function signUpWithEmailPassword(email1, pass) {
-  const email = email1;
-  const password = pass;
-  firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
-  // [END auth_signup_password]
-}
-
-export function signInWithEmailPassword(email1, pass) {
-  const email = email1;
-  const password = pass;
-  // [START auth_signin_password]
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
-  // [END auth_signin_password]
-
-}
-
 
 
