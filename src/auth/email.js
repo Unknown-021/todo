@@ -16,19 +16,6 @@ firebase.initializeApp(firebaseConfig);
 
 export const db = firebase.firestore();
 
-db.collection("users").add({
-  first: "Ada",
-  last: "Lovelace",
-  born: 1815
-})
-.then((docRef) => {
-  console.log("Document written with ID: ", docRef.id);
-})
-.catch((error) => {
-  console.error("Error adding document: ", error);
-});
-
-
 
 export function signUpWithEmailPassword(email1, pass) {
   const email = email1;
@@ -62,13 +49,8 @@ export function signInWithEmailPassword(email1, pass) {
       const errorMessage = error.message;
     });
   // [END auth_signin_password]
-  const user = firebase.auth().currentUser;
-  let id;
-  if (user) {
-    id = user.uid
-    console.log(id);
-  } else {
-    // No user is signed in.
+
 }
-}
+
+
 

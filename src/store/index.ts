@@ -1,4 +1,5 @@
-import { todos } from "@/store/todos";
+import { vuexfireMutations, firestoreAction } from 'vuexfire'
+import { todosFB } from './todosFB/index'
 import Vue from "vue";
 import Vuex, { StoreOptions } from "vuex";
 
@@ -11,8 +12,10 @@ export const rootState = () => ({
 export default async () => {
   const StoreOptions: StoreOptions<ReturnType<typeof rootState>> = {
     state: rootState(),
+    mutations: vuexfireMutations,
     modules: {
-      todos: await todos()
+      // todos: await todos(),
+      todosFB: await todosFB(),
     }
   };
 

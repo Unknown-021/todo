@@ -8,8 +8,6 @@ import router from "./router";
 Vue.config.productionTip = false;
 
 
-
-
 (async() => {
   const store = await getStore();
   new Vue({

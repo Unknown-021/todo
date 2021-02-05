@@ -4,15 +4,19 @@ import { mutations } from "./mutations";
 import { rootState } from "@/store/";
 import { Module } from "vuex";
 import { TodoItem } from "@/store/todos/types";
-import { getDB } from '@/api/idb';
+
 
 type Await<T> = T extends {
   then(onfulfilled?: (value: infer U) => unknown): unknown;
 } ? U : T;
 
+
 const state = async () => {
+
   return {
-    todos: await (await getDB()).getAll('todo') as TodoItem[]
+    // todos: await (await getDB()).getAll('todo') as TodoItem[]
+    todos: [] as TodoItem[]
+
   }
 };
 

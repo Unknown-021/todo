@@ -161,12 +161,16 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import TodoList from './components/TodoList.vue'
 import { TodoItem} from "./store/todos/types";
+import 'vue-class-component/hooks'
+
+
 
 @Component({
   components: {
     TodoList,
   }
 })
+
 export default class App extends Vue {
   public dialog = false;
   public snackbar = {
@@ -175,7 +179,9 @@ export default class App extends Vue {
     timeout: 1000,
   };
 
-
+  beforeCreate(){
+    this.$store.dispatch('setTodo');
+  }
   private newTodo: TodoItem = {
     // id: uuidv4(),
     todoTitle: '',
