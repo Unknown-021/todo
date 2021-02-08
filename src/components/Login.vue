@@ -59,9 +59,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import { signUpWithEmailPassword, signInWithEmailPassword } from '../auth/email'
 import firebase from 'firebase/app'
-
 
 
 @Component
@@ -87,23 +85,22 @@ export default class Login extends Vue {
   get form(): Vue & { validate: () => boolean } {
     return this.$refs.form as Vue & { validate: () => boolean }
   }
-  get snackBarStatus(): boolean {
+  get snackBarStatus(): any {
     return this.snackbar;
   }
-
   public login() {
     firebase.auth().signInWithEmailAndPassword(this.email, this.password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
       this.$router.push({name:"Home"});
-      this.$store.dispatch("setUser")
+      this.$store.dispatch("setUser",user.uid)
+      this.$store.dispatch('setTodo', user.uid,);
+
     })
     .catch((error) => {
       this.snackbar.status = true;
       this.snackbar.text = "Invalid email or password"
-      const errorCode = error.code;
-      const errorMessage = error.message;
     });
 
   }
@@ -112,14 +109,11 @@ export default class Login extends Vue {
     firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
     .then((userCredential) => {
       // Signed in 
-      const user = userCredential.user;
       this.$router.push({name:"Home"});
       this.$store.dispatch("setUser")
       // ...
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
       // ..
     });
 

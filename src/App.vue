@@ -142,6 +142,7 @@
             <img class="logo" src="./assets/logo.svg" alt="">
             <span class="app-name">Ultimate</span><br>
             <span class="app-name">TodoApp</span><br>
+            <p>Email</p><br>
             <v-btn
               @click="logOut()"
             
@@ -170,9 +171,8 @@ import { Component } from 'vue-property-decorator'
 import TodoList from './components/TodoList.vue'
 import { TodoItem} from "./store/todos/types";
 import 'vue-class-component/hooks'
-import { db } from '../../auth/email';
 import firebase from 'firebase/app'
-
+import { demo5 }  from './auth/idb'
 
 @Component({
   components: {
@@ -191,22 +191,17 @@ export default class App extends Vue {
   get userStaus() {
     return true
   }
-  public userID(): string{
-    return this.$store.state.user.getUserID
-  }
-  beforeCreate(){
-    this.$store.dispatch('setTodo', this.userID() );
-    const user = firebase.auth().currentUser;
-    console.log(user);
-    // if(this.$store.state.user){
-    //   this.$router.push({name: 'Login'})
-    // }
-  }
-  mounted() {
+  async mounted() {
     if(firebase.auth()){
       this.showUserStatus();
     }
-    console.log(this.$store.state.user.logged)
+
+    const firebaseUserID = await demo5()
+
+    this.$store.dispatch("setUser",firebaseUserID)
+    this.$store.dispatch('setTodo', firebaseUserID);
+
+
   }
 
   private newTodo: TodoItem = {
@@ -284,7 +279,9 @@ li{
 }
 .app-name:first-of-type{
   padding-left: 5px;
-  
+}
+.app-name:last-of-type{
+  flex-basis: 90%;
 }
 .app-name{
   padding-right: 5px;

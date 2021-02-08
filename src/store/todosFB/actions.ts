@@ -7,14 +7,15 @@ import { db } from '../../auth/email';
 import firebase from 'firebase/app'
 
 export const actions: ActionTree<TodosState, RootState> = {
-  async setTodo({ commit }, payload) {
+  async setTodo({ commit }, payload: string) {
+    console.log(payload);
     const querySnapshot = await db.collection("todos").where("userID", "==", payload).get();
     const items = [] as TodoItem[];
 
     querySnapshot.forEach((doc) => {
       items.push(doc.data());
     });
-    console.log(items);
+    // console.log(items);
     commit("SET_TODOS", items);
   },
 

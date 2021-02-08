@@ -47,7 +47,6 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import TodoItemC from "./TodoItemC.vue";
 import { TodoItem, IBaseFile } from "../store/todos/types";
-import { v4 as uuidv4 } from "uuid";
 
 @Component({
   components: {

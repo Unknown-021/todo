@@ -4,7 +4,7 @@ import { RootState } from './../types';
 import { ActionTree } from "vuex";
 import { TodosState } from ".";
 import { getDB } from '@/api/idb';
-import {db} from '@/auth/email'
+import { db } from '../../auth/email'
 import { vuexfireMutations, firestoreAction } from 'vuexfire'
 import firebase from 'firebase/app'
 import 'firebase/firestore'

@@ -4,7 +4,6 @@ import { mutations } from "./mutations";
 import { rootState } from "@/store/";
 import { Module } from "vuex"; 
 import { TodoItem } from "@/store/todos/types";
-import { db } from '../../auth/email'
 
 
 
@@ -19,7 +18,6 @@ const state = async () => {
   }
 };
 
-const namespaced = true;
 
 export const todosFB: () => Promise<Module<TodosState, ReturnType<typeof rootState>>> = async () => ({
   state: (await state()),

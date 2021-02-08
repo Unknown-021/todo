@@ -115,8 +115,6 @@ export default class TodoDetailed extends Vue {
     this.$router.push({name:"Home"});
     this.$store.commit("CHANGE_TODO_STATUS", this.currentTodo.id);
   }
-
-
 }
 </script>
 

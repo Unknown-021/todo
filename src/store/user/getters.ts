@@ -1,4 +1,3 @@
-import { getters } from '@/store/todos/getters';
 import { RootState } from './../types';
 import { GetterTree } from "vuex";
 import { User } from "./types";
@@ -9,5 +8,9 @@ export const getters:GetterTree<User, RootState>  = {
   },
   getUserID(state, getters: any) {
     return state.userID;
+  },
+  getUserEmail(state, getters: any) {
+    return state.userEmail;
   }
+
 }

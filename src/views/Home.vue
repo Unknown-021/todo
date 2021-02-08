@@ -37,19 +37,17 @@ import { TodoItem} from "../store/todos/types";
 })
 export default class Home extends Vue {
     public snackbar = {
-    status: false,
-    text: '',
-    timeout: 1000,
+      status: false,
+      text: '',
+      timeout: 1000,
   };
     private newTodo: TodoItem = {
-          // id: uuidv4(),
-          todoTitle: '',
-          done: false,
-          attachments: []
+      todoTitle: '',
+      done: false,
+      attachments: []
     };
     public resetTodo(): void {
         this.newTodo = {
-        // id: uuidv4(),
         todoTitle: '',
         done: false,
         attachments: []
