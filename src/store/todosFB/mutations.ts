@@ -1,7 +1,10 @@
+import firebase from "firebase/app";
 import { TodosState } from "./index";
 import { MutationTree } from "vuex";
 import { TodoItem, IBaseFile } from "@/store/todos/types";
 import { v1 as uuidv1 } from "uuid";
+import { storage } from '../../auth/email'
+
 
 
 export const mutations: MutationTree<TodosState> = {
@@ -16,6 +19,11 @@ export const mutations: MutationTree<TodosState> = {
     const currentTodo = state.todosFB.find(item => item.id == payload.id);
     console.log(currentTodo);
     currentTodo.attachments.push(payload.file);
+    const storageRef = firebase.storage().ref();
+    const fileRef = storageRef.child('file.jpg');
+    fileRef.put(payload.file).then((snapshot) => {
+      console.log("File loaded");
+    })
   },
   DELETE_TODO(state, payload: string) {
     const todoArray = state.todosFB;

@@ -94,14 +94,16 @@ export default class TodoDetailed extends Vue {
   fileInput: File | null = null;
 
   get currentTodo(): TodoItem {
-      return this.$store.getters.getCurrentTodo(this.id);
+    return this.$store.getters.getCurrentTodo(this.id);
   }
   public loadingStatus(): boolean {
     return this.$store.getters.getLoadingStatus();
   }
   public handleFile(file: File): void {
     console.log(file);
-    this.addFile(fileParse(file));
+    // this.addFile(fileParse(file));
+    this.addFile(file);
+
   }
 
 
@@ -111,7 +113,7 @@ export default class TodoDetailed extends Vue {
     return newValue;
   }
 
-  public addFile(file: IBaseFile): void {
+  public addFile(file: File): void {
     // console.log(this.newTodo.id);
     this.$store.commit("ADD_FILE", { id: this.currentTodo.id, file: file });
   }

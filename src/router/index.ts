@@ -57,8 +57,7 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/TodoDetailed.vue"),
     beforeEnter: async (to, from, next) => {
-      await new Promise(res=> setTimeout(res, 2000));
-
+      await new Promise( res => setTimeout(res, 2000));
       const loadedTodo = (await store()).getters.getCurrentTodo(to.params.id);
       console.log(loadedTodo)
       next();
