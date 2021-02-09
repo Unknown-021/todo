@@ -10,5 +10,8 @@ export const mutations: MutationTree<User> = {
   },
   SET_LOGGED_OUT(state) {
     state.logged = false;
+  },
+  SET_LOADING(state, payload) {
+    state.loading = payload;
   }
 }

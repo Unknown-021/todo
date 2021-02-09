@@ -11,6 +11,8 @@ export const getters:GetterTree<User, RootState>  = {
   },
   getUserEmail(state, getters: any) {
     return state.userEmail;
+  },
+  getLoadingStatus(state, getters: any) {
+    return state.loading;
   }
-
 }

@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
+import store from "../store/index"
 
 Vue.use(VueRouter);
 
@@ -54,7 +55,18 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/TodoDetailed.vue")
+      import(/* webpackChunkName: "about" */ "../views/TodoDetailed.vue"),
+    beforeEnter: async (to, from, next) => {
+      await new Promise(res=> setTimeout(res, 2000));
+
+      const loadedTodo = (await store()).getters.getCurrentTodo(to.params.id);
+      console.log(loadedTodo)
+      next();
+    }
+  },
+  {
+    path: "*", redirect: { name: 'Home'}
+
   }
 ];
 
@@ -63,5 +75,11 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-
+router.beforeEach(async (to, from, next) => {
+  (await store()).commit('SET_LOADING', true);
+  return next()
+})
+router.afterEach (async (to, from) => {
+  (await store()).commit('SET_LOADING', false);
+})
 export default router;
