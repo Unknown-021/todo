@@ -1,5 +1,6 @@
 <template>
-  <div class="todo-item">
+  <div v-if="currentTodo">
+       <div class="todo-item">
     <div class="todo-card">
     <v-card>
       <div class="card-top">
@@ -68,7 +69,7 @@
       </v-expansion-panels>
     </v-card>
   </div>
-
+  </div>
   </div>
 </template>
 
@@ -115,7 +116,8 @@ export default class TodoDetailed extends Vue {
 
   public addFile(file: File): void {
     // console.log(this.newTodo.id);
-    this.$store.commit("ADD_FILE", { id: this.currentTodo.id, file: file });
+    this.$store.dispatch("addFile", {id: this.currentTodo.id, file: file});
+    // this.$store.commit("ADD_FILE", { id: this.currentTodo.id, file: file });
   }
 
   public changeTodoStatus(): void {

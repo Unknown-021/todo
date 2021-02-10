@@ -9,7 +9,7 @@ export const getters:GetterTree<User, RootState>  = {
   getUserID(state, getters: any) {
     return state.userID;
   },
-  getUserEmail(state, getters: any) {
+  getUserEmail(state) {
     return state.userEmail;
   },
   getLoadingStatus(state, getters: any) {

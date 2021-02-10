@@ -2,5 +2,5 @@ export interface User {
   logged: boolean;
   userID: string;
   userEmail?: string;
-  loading?: boolean;
+  loading: boolean;
 }

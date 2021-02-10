@@ -3,7 +3,7 @@ import { getters } from './getters';
 import { mutations } from "./mutations";
 import { rootState } from "@/store/";
 import { Module } from "vuex"; 
-import { TodoItem } from "@/store/todos/types";
+import { TodoItem } from "@/store/todosFB/types";
 
 
 
@@ -13,8 +13,12 @@ type Await<T> = T extends {
 
 
 const state = async () => {
+  let resolver = (val?: unknown) => {/** */};
+  const loadingPromise = new Promise(res => {resolver = res})
   return {
     todosFB: [] as TodoItem[] | null,
+    loadingPromise,
+    resolveLoading: resolver
   }
 };
 

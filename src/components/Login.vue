@@ -15,6 +15,8 @@
       <v-text-field
         v-model="password"
         :rules="passRules"
+        :type="show1 ? 'text' : 'password'"
+
         label="Password"
         required
       ></v-text-field>
@@ -94,8 +96,8 @@ export default class Login extends Vue {
       // Signed in
       const user = userCredential.user;
       this.$router.push({name:"Home"});
-      this.$store.dispatch("setUser",user.uid)
-      this.$store.dispatch('setTodo', user.uid,);
+      this.$store.dispatch("setUser", user?.uid)
+      this.$store.dispatch('setTodo', user?.uid);
 
     })
     .catch((error) => {

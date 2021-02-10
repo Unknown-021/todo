@@ -12,5 +12,5 @@ export interface TodoItem {
   descrption?: string;
   done: boolean;
   important?: boolean;
-  attachments: IBaseFile[];
+  attachments: File[];
 }
