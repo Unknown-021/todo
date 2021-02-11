@@ -57,18 +57,20 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/TodoDetailed.vue"),
     beforeEnter: async (to, from, next) => {
-      const vuex = await store()
-
-      console.log("loading");
+      const vuex = await store();
       await vuex.state.todosFB.loadingPromise;
-      console.log("Loaded");
       // сделать проверку адреса тудушки
+      const loadedTodo = await (await store()).getters.getCurrentTodo(to.params.id);
+      console.log(loadedTodo.id);
+      if(to.params.id != loadedTodo.id){
+        next('Home')
+      }
       next();
     },
   },
   {
     path: "*",
-    redirect: { name: "Home" },
+    redirect:{ name: "Home"}
   },
 ];
 
@@ -77,11 +79,12 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-// router.beforeEach(async (to, from, next) => {
-//   (await store()).commit("SET_LOADING", true);
-//   return next();
-// });
-router.afterEach(async (to, from) => {
-  // (await store()).commit("SET_LOADING", false);
+router.beforeEach(async (to, from, next) => {
+  (await store()).commit("SET_LOADING", true);
+
+  return next();
 });
+// router.afterEach(async (to, from) => {
+//   // (await store()).commit("SET_LOADING", false);
+// });
 export default router;

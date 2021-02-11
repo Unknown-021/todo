@@ -53,7 +53,7 @@ export default class Completed extends Vue {
   flex-direction: column;
   width: 650px;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 90px;
 }
 .completed-todo{
   text-decoration: line-through;

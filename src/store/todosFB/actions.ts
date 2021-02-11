@@ -8,7 +8,6 @@ import firebase from "firebase/app";
 
 export const actions: ActionTree<TodosState, RootState> = {
   async setTodo({ commit }, payload: string) {
-    console.log(payload);
     const querySnapshot = await db
       .collection("todos")
       .where("userID", "==", payload)
@@ -55,9 +54,7 @@ export const actions: ActionTree<TodosState, RootState> = {
     commit("DELETE_TODO", payload);
     // (await getDB()).delete("todo", payload)
   },
-  async addFile(
-    { commit },
-    payload: { id: string; file: File; fileUrl: string }
+  async addFile({ commit },payload: { id: string; file: File; fileUrl: string }
   ) {
     const storageRef = firebase.storage().ref();
     const fileRef = storageRef.child(payload.file.name);
@@ -84,5 +81,12 @@ export const actions: ActionTree<TodosState, RootState> = {
       // TODO: !!!!!!!!!!!!
     }
 
+  },
+  async addTodoDescription({ commit }, payload: {todo:TodoItem, text: string}) {
+    commit("ADD_DESCRIPTION", payload);
+    const todoRef = db.collection("todos").doc(payload.todo.id);
+    return todoRef.update({
+      description: payload.text,
+    });
   },
 };

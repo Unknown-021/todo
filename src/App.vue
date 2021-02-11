@@ -1,39 +1,28 @@
 <template>
-    <v-app>
-      <v-navigation-drawer 
-        app 
-        class="side-bar"
-        v-if="$route.name !== 'Login'"
-      >
-        <v-dialog
-          v-model="dialog"
-          
-          max-width="600px"
-          keydown
-        >
-          <template v-slot:activator="{ on, attrs }">
+  <v-app>
+    <v-navigation-drawer app class="side-bar" v-if="$route.name !== 'Login'">
+      <v-dialog v-model="dialog" max-width="600px" keydown>
+        <template v-slot:activator="{ on, attrs }">
           <v-btn
-          class="mx-2 add-todo-btn elevation-0"
-          fab
-          color="indigo"
-          depressed
-          v-bind="attrs"
-          v-on="on"
+            class="mx-2 add-todo-btn elevation-0"
+            fab
+            color="indigo"
+            depressed
+            v-bind="attrs"
+            v-on="on"
           >
-        <v-icon dark>
-          mdi-plus
-        </v-icon>
-        </v-btn>
-         </template>
-<v-card>
-        <v-card-title>
-          <span class="headline">New Todo</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container class="v-container-class">
-            <v-form 
-              @submit.prevent="addTodo(newTodo.todoTitle)"
-            >
+            <v-icon dark>
+              mdi-plus
+            </v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">New Todo</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container class="v-container-class">
+              <v-form @submit.prevent="addTodo(newTodo.todoTitle)">
                 <div class="todo-title-input__modal">
                   <v-text-field
                     v-model="newTodo.todoTitle"
@@ -42,182 +31,152 @@
                   ></v-text-field>
                 </div>
               </v-form>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="addTodo(newTodo.todoTitle)"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-        </v-dialog>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              Close
+            </v-btn>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="addTodo(newTodo.todoTitle)"
+            >
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
-        <router-link to="/">
+      <router-link to="/">
         <div class="link-home link-block">
-          <v-btn
-            class="nav__link link"
-            text
-            dark
-            depressed
-          >
-          <img
-            class="home-img"
-            :src="require('@/assets/home.svg')" 
-            alt=""
-          >
-          Home
+          <v-btn class="nav__link link" text dark depressed>
+            <img class="home-img" :src="require('@/assets/home.svg')" alt="" />
+            Home
           </v-btn>
         </div>
-        </router-link>
-        <v-divider></v-divider>
-        <router-link :to="{ name: 'Todo-list' }">
-          <div class="link link-block">
-            <v-btn
-              class="nav__link link"
-              text
-              dark
-              depressed
-            >
+      </router-link>
+      <v-divider></v-divider>
+      <router-link :to="{ name: 'Todo-list' }">
+        <div class="link link-block">
+          <v-btn class="nav__link link" text dark depressed>
             <img
               class="home-img"
-              :src="require('@/assets/todo-list.svg')" 
+              :src="require('@/assets/todo-list.svg')"
               alt=""
-            >
+            />
             Todo List
-            </v-btn>
+          </v-btn>
         </div>
-        </router-link>
-        <router-link :to="{ name: 'Completed' }">
-          <div class="link">
-            <v-btn
-              class="nav__link link"
-              text
-              dark
-              depressed
-            >
+      </router-link>
+      <router-link :to="{ name: 'Completed' }">
+        <div class="link">
+          <v-btn class="nav__link link" text dark depressed>
             <img
               class="home-img"
-              :src="require('@/assets/completed.svg')" 
+              :src="require('@/assets/completed.svg')"
               alt=""
-            >
+            />
             Completed Todos
-            </v-btn>
+          </v-btn>
         </div>
-        </router-link>
-        <router-link :to="{ name: 'Important' }">
-          <div class="link">
-            <v-btn
-              class="nav__link link"
-              text
-              dark
-              depressed
-            >
+      </router-link>
+      <router-link :to="{ name: 'Important' }">
+        <div class="link">
+          <v-btn class="nav__link link" text dark depressed>
             <img
               class="home-img"
-              :src="require('@/assets/favorite.svg')" 
+              :src="require('@/assets/favorite.svg')"
               alt=""
-            >
+            />
             Important Todos
-            </v-btn>
+          </v-btn>
         </div>
-        </router-link>
-      </v-navigation-drawer>
-        <v-main>
-          <v-toolbar 
-            outlined
-            class="header elevation-0"
-            v-if="$route.name !== 'Login'"
-          >
-            <img class="logo" src="./assets/logo.svg" alt="">
-            <span class="app-name">Ultimate</span><br>
-            <span class="app-name">TodoApp</span><br>
-            <p>Email</p><br>
-            <v-btn
-              @click="logOut()"
-            
-            >Logout</v-btn>
-          </v-toolbar>
-          <router-view />
-      <v-snackbar
-            v-model="snackbar.status"
-            :timeout="2000"
-          >  
-            <span>{{snackbar.text}}</span>
-            <v-btn
-              class="snack-close-button"
-              text
-              @click="snackbar.status = false"
-            >
-            Close</v-btn>
-          </v-snackbar>
-        </v-main>
-    </v-app>
+      </router-link>
+    </v-navigation-drawer>
+    <v-main>
+      <v-toolbar
+        outlined
+        width="100%"
+        class="header elevation-0"
+        v-if="$route.name !== 'Login'"
+      >
+        <img class="logo" src="./assets/logo.svg" alt="" />
+        <span class="app-name">Ultimate</span><br />
+        <span class="app-name">TodoApp</span><br />
+        <!-- <p>{{showEmail}}</p> -->
+        <br />
+        <v-btn 
+          @click="logOut()"
+          class="logout-btn"
+        >
+        Logout
+        </v-btn>
+      </v-toolbar>
+      <router-view />
+      <v-snackbar v-model="snackbar.status" :timeout="2000">
+        <span>{{ snackbar.text }}</span>
+        <v-btn class="snack-close-button" text @click="snackbar.status = false">
+          Close</v-btn
+        >
+      </v-snackbar>
+    </v-main>
+  </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Component } from 'vue-property-decorator'
-import TodoList from './components/TodoList.vue'
-import { TodoItem} from "./store/todos/types";
-import 'vue-class-component/hooks'
-import firebase from 'firebase/app'
-import { demo5 }  from './auth/idb'
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+import TodoList from "./components/TodoList.vue";
+import { TodoItem } from "./store/todos/types";
+import "vue-class-component/hooks";
+import firebase from "firebase/app";
+import { demo5 } from "./auth/idb";
 
 @Component({
   components: {
     TodoList,
-  }
+  },
 })
-
 export default class App extends Vue {
   public logged = false;
   public dialog = false;
   public snackbar = {
     status: false,
-    text: 'asdas',
+    text: "asdas",
     timeout: 1000,
   };
   get userStaus() {
-    return true
+    return true;
   }
   async mounted() {
-    if(firebase.auth()){
+    if (firebase.auth()) {
       this.showUserStatus();
     }
 
-    const firebaseUserID = await demo5()
-
-    this.$store.dispatch("setUser",firebaseUserID)
-    this.$store.dispatch('setTodo', firebaseUserID);
-
-
+    const firebaseUserID = await demo5();
+    console.log(firebaseUserID.uid);
+    this.$store.dispatch("setUser", {id:firebaseUserID?.uid, email: firebaseUserID?.email });
+    this.$store.dispatch("setTodo", firebaseUserID?.uid);
   }
 
   private newTodo: TodoItem = {
-    todoTitle: '',
+    todoTitle: "",
     done: false,
-    attachments: []
+    attachments: [],
   };
   public resetTodo(): void {
     this.newTodo = {
-      todoTitle: '',
+      todoTitle: "",
       done: false,
-      attachments: []
-      }
+      attachments: [],
+    };
   }
-  public showUserStatus(): boolean{
-    return this.$store.getters.showUserStatus
+  public showUserStatus(): boolean {
+    return this.$store.getters.showUserStatus;
+  }
+  get showEmail(): string {
+    return this.$store.getters.getUserEmail();
   }
   public async addTodo() {
     this.snackbar.status = true;
@@ -229,14 +188,13 @@ export default class App extends Vue {
   }
   public logOut(): void {
     this.$store.dispatch("logOut");
-    this.$router.push({name: 'Login'})
+    this.$router.push({ name: "Login" });
   }
-
 }
 </script>
 
 <style scoped>
-.app-container{
+.app-container {
   display: flex;
   flex-direction: column;
   width: 650px;
@@ -246,103 +204,114 @@ export default class App extends Vue {
   padding: 45px;
   border-radius: 20px;
 }
-.header{
-  background: rgb(232,242,255);
-  background: linear-gradient(82deg, rgba(232,242,255,1) 0%, rgba(233,243,255,1) 2%, rgba(255,255,255,1) 16%);
+.header {
+  background: rgb(232, 242, 255);
+  background: linear-gradient(
+    82deg,
+    rgba(232, 242, 255, 1) 0%,
+    rgba(233, 243, 255, 1) 2%,
+    rgba(255, 255, 255, 1) 16%
+  );
+  position: fixed;
+  z-index: 100;
+}
+.logout-btn{
+  position: fixed;
+  left: 80%;
+  z-index: 101;
 }
 
-
-.todo-title-input{
+.todo-title-input {
   margin-top: 38px;
 }
-.todo-add-btn{
+.todo-add-btn {
   margin-top: 15px;
 }
-.todo-card{
+.todo-card {
   margin-top: 10px;
 }
-.v-card{
+.v-card {
   /* display: flex; */
   margin-top: 15px;
 }
-.task-title{
+.task-title {
   padding-top: 20px;
 }
-li{
+li {
   list-style: none;
 }
-.attached-img{
+.attached-img {
   width: 100px;
 }
-.logo{
+.logo {
   height: 50px;
 }
-.app-name:first-of-type{
+.app-name:first-of-type {
   padding-left: 5px;
 }
-.app-name:last-of-type{
+.app-name:last-of-type {
   flex-basis: 90%;
 }
-.app-name{
+.app-name {
   padding-right: 5px;
   font-size: 1.3rem;
   font-weight: bold;
-  color: #3844d6;;
+  color: #3844d6;
 }
 
 .theme--light.v-toolbar.v-sheet {
-    background-color: #08c0dd!important;
+  background-color: #08c0dd !important;
 }
 
 .theme--light.v-navigation-drawer {
-    background-color: #25d9ab !important;
+  background-color: #25d9ab !important;
 }
-.todo-list__header{
+.todo-list__header {
   color: #fff;
   text-align: center;
   padding-top: 20px;
 }
 .v-navigation-drawer__content {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
-.todo-list_list{
+.todo-list_list {
   margin-top: 10px;
   align-self: center;
-  }
+}
 
-.todo-list_item{
+.todo-list_item {
   display: flex;
   margin: 15px;
 }
-.todo-list_item-title{
+.todo-list_item-title {
   margin-top: 19px;
   margin-bottom: 19px;
 }
-.nav{
-  margin-left: 30%; 
+.nav {
+  margin-left: 30%;
 }
-.nav__link{
+.nav__link {
   margin-right: 15px;
 }
-.link-home{
+.link-home {
   margin: 0 auto;
   margin-top: 25vh;
 }
-.link{
+.link {
   margin: 0 auto;
-  font-weight: 900!important;
-  font-size: 1.2rem!important;
+  font-weight: 900 !important;
+  font-size: 1.2rem !important;
   text-transform: none !important;
-  letter-spacing: 0.01cm!important;
-  width: 235px!important;
-  justify-content: flex-start!important;
+  letter-spacing: 0.01cm !important;
+  width: 235px !important;
+  justify-content: flex-start !important;
 }
-.link-block{
+.link-block {
   display: flex;
 }
 
-.home-img{
+.home-img {
   padding-bottom: 3px;
   padding-right: 5px;
 }
@@ -350,61 +319,65 @@ li{
   text-decoration: none;
 }
 .v-application .indigo {
-    background-color: #fff !important;
-    border-color: #3f51b5 !important;
+  background-color: #fff !important;
+  border-color: #3f51b5 !important;
 }
-.side-bar{
+.side-bar {
   height: 100vh;
-  background: rgb(112,99,223);
-  background: linear-gradient(45deg, rgba(112,99,223,1) 0%, rgba(72,155,244,1) 100%);
+  background: rgb(112, 99, 223);
+  background: linear-gradient(
+    45deg,
+    rgba(112, 99, 223, 1) 0%,
+    rgba(72, 155, 244, 1) 100%
+  );
 }
 
-.add-todo-btn{
-  color: #3c93f3!important;
+.add-todo-btn {
+  color: #3c93f3 !important;
   position: absolute;
   top: 12vh;
-  left: 90px;;
+  left: 90px;
 }
 
 .theme--light.v-btn:focus::before {
-    opacity: 0.08;
+  opacity: 0.08;
 }
 
-.v-divider{
-  border-width: 2px 0 0 0!important;
+.v-divider {
+  border-width: 2px 0 0 0 !important;
 }
-.todo-title-input__modal{
+.todo-title-input__modal {
   width: 340px;
 }
-.headline{
+.headline {
   color: #4d4e58;
 }
-.v-card__title{
-  justify-content: center!important;
+.v-card__title {
+  justify-content: center !important;
 }
-.v-container-class{
+.v-container-class {
   display: flex;
   justify-content: center;
 }
 
-.v-input__slot{
-      width: 310px;
+.v-input__slot {
+  width: 310px;
 }
-.v-card__text{
-  padding-bottom: 0!important;
+.v-card__text {
+  padding-bottom: 0 !important;
 }
-.v-card__actions{
+.v-card__actions {
   display: flex;
-    justify-content: center;
+  justify-content: center;
 }
-.v-card__actions .v-btn .v-btn__content{
-  color:#3844d6!important;
+.v-card__actions .v-btn .v-btn__content {
+  color: #3844d6 !important;
 }
 
-.v-snackbar{
+.v-snackbar {
   margin: 0 auto;
 }
-.v-bnt .snack-close-button{
-  float: right!important;
+.v-bnt .snack-close-button {
+  float: right !important;
 }
 </style>

@@ -55,6 +55,7 @@ import { TodoItem, IBaseFile } from "../store/todos/types";
 })
 export default class TodoList extends Vue {
   fileInput: File | null = null;
+  
 
   get undone(): TodoItem[] {
     return this.$store.getters.showUndoneTodo;
@@ -75,7 +76,7 @@ export default class TodoList extends Vue {
   flex-direction: column;
   width: 650px;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 90px;
 }
 .card-top {
   display: flex;

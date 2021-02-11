@@ -11,7 +11,7 @@ export default class TodoItemC extends Vue {
 
   public handleFile(file: File): void {
     console.log(file);
-    this.addFile(fileParse(file));
+    this.addFile(fileParse(file, ));
   }
 
   public addFile(file: IBaseFile): void {

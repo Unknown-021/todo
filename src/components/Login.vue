@@ -1,10 +1,6 @@
 <template>
   <div class="app-container">
-    <v-form
-      ref="form"
-      v-model="valid"
-      lazy-validation
-    >
+    <v-form ref="form" v-model="valid" lazy-validation>
       <v-text-field
         v-model="email"
         :rules="emailRules"
@@ -15,8 +11,7 @@
       <v-text-field
         v-model="password"
         :rules="passRules"
-        :type="show1 ? 'text' : 'password'"
-
+        type="password"
         label="Password"
         required
       ></v-text-field>
@@ -38,93 +33,81 @@
         Register
       </v-btn>
     </v-form>
-     <div class="text-center">
+    <div class="text-center">
+      <v-snackbar v-model="snackbar.status" :timeout="2000">
+        {{ snackbar.text }}
 
-      <v-snackbar
-            v-model="snackbar.status"
-            :timeout="2000"
-      >  
-      {{ snackbar.text }}
-
-        <v-btn
-          color="blue"
-          text
-          @click="snackbar = false"
-        >
+        <v-btn color="blue" text @click="snackbar = false">
           Close
         </v-btn>
-    </v-snackbar>
-  </div>
+      </v-snackbar>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import firebase from 'firebase/app'
-
+import Vue from "vue";
+import Component from "vue-class-component";
+import firebase from "firebase/app";
 
 @Component
 export default class Login extends Vue {
   public snackbar = {
     status: false,
-    text: 'asdas',
+    text: "asdas",
     timeout: 1000,
   };
 
   public valid = true;
-  public password = '';
+  public password = "";
   public passRules = [
-    (    v: any) => !!v || 'Password is required',
-    (    v: string|any[]) => (v && v.length > 5) || 'Password must be more than 6 characters',
-
+    (v: any) => !!v || "Password is required",
+    (v: string | any[]) =>
+      (v && v.length > 5) || "Password must be more than 6 characters",
   ];
-  public email = '';
-  public emailRules= [
-    (    v: any) => !!v || 'E-mail is required',
-    (    v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-  ]
+  public email = "";
+  public emailRules = [
+    (v: any) => !!v || "E-mail is required",
+    (v: string) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+  ];
   get form(): Vue & { validate: () => boolean } {
-    return this.$refs.form as Vue & { validate: () => boolean }
+    return this.$refs.form as Vue & { validate: () => boolean };
   }
   get snackBarStatus(): any {
     return this.snackbar;
   }
   public login() {
-    firebase.auth().signInWithEmailAndPassword(this.email, this.password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      this.$router.push({name:"Home"});
-      this.$store.dispatch("setUser", user?.uid)
-      this.$store.dispatch('setTodo', user?.uid);
-
-    })
-    .catch((error) => {
-      this.snackbar.status = true;
-      this.snackbar.text = "Invalid email or password"
-    });
-
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(this.email, this.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        this.$router.push({ name: "Home" });
+        this.$store.dispatch("setUser", {id: user?.uid, email: user?.email});
+        this.$store.dispatch("setTodo", user?.uid);
+      })
+      .catch((error) => {
+        this.snackbar.status = true;
+        this.snackbar.text = "Invalid email or password";
+      });
   }
 
   public register() {
-    firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-    .then((userCredential) => {
-      // Signed in 
-      this.$router.push({name:"Home"});
-      this.$store.dispatch("setUser")
-      // ...
-    })
-    .catch((error) => {
-      // ..
-    });
-
-
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(this.email, this.password)
+      .then((userCredential) => {
+        // Signed in
+        this.$router.push({ name: "Home" });
+        this.$store.dispatch("setUser");
+        // ...
+      })
+      .catch((error) => {
+        // ..
+      });
   }
-
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

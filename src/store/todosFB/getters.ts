@@ -9,6 +9,12 @@ export const getters:GetterTree<TodosState, RootState>  = {
         return state.todosFB.find(item => item.id == id);
     }
   },
+  getCurrentTodoText(state: TodosState, getters: any ) {
+    return (id: string) => {
+        const todo = state.todosFB.find(item => item.id == id);
+        return todo?.description ? todo?.description : '';
+    }
+  },
   showUndoneTodo(state) {
     const undoneList = state.todosFB.filter(item => item.done == false);
     return undoneList;

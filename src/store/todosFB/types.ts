@@ -6,6 +6,7 @@ export interface IBaseFile {
 }
 
 export interface TodoItem {
+  description: string;
   id?: string;
   userID?: string;
   todoTitle: string;

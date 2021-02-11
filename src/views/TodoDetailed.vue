@@ -1,102 +1,105 @@
 <template>
   <div v-if="currentTodo">
-       <div class="todo-item">
-    <div class="todo-card">
-    <v-card>
-      <div class="card-top">
-        <div>
-          <input 
-          class="checkbox-round"
-            type="checkbox"
-            id="checkbox"
-            @click="changeTodoStatus(todo)"
-          />
-          <label for="checkbox"></label>
-        </div>
-        <p class="task-title">{{ currentTodo.todoTitle }}</p>
-      </div>
-      <div class="text-area">
-        <v-textarea
-          class="elevation-0"
-          v-model="currentTodo.description"
-          solo name="input-7-4" 
-          label="Description"
-        >
-        </v-textarea>
-      </div>
+    <div class="todo-item">
+      <div class="todo-card">
+        <v-card>
+          <div class="card-top">
+            <div>
+              <input
+                class="checkbox-round"
+                type="checkbox"
+                id="checkbox"
+                @click="changeTodoStatus(todo)"
+              />
+              <label for="checkbox"></label>
+            </div>
+            <p class="task-title">{{ currentTodo.todoTitle }}</p>
+          </div>
+          <div class="text-area">
+            <v-textarea
+              class="elevation-0"
+              @change="addText()"
+              solo
+              name="input-7-4"
+              label="Description"
+              :value="todoText"
+            >
+            </v-textarea>
+          </div>
 
-      <div class="file-input">
-        <v-file-input
-          class="file-input"
-          @change="handleFile"
-          hide-input
-          ref="file"
-          type="file"
-          accept="video/*, image/*, audio/*"
-          label="Add file"
-        >
-        </v-file-input>
-        <p class="input-title">Add file</p>
+          <div class="file-input">
+            <v-file-input
+              class="file-input"
+              @change="handleFile"
+              hide-input
+              ref="file"
+              type="file"
+              accept="video/*, image/*, audio/*"
+              label="Add file"
+            >
+            </v-file-input>
+            <p class="input-title">Add file</p>
+          </div>
+          <v-expansion-panels>
+            <v-expansion-panel v-for="(item, i) in 1" :key="i">
+              <v-expansion-panel-header>
+                Attachments
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <ul class="attachment-list">
+                  <li v-for="att in currentTodo.attachments" :key="att.id">
+                    <div v-if="att.type.includes('image')">
+                      <img class="attached-img" :src="att.url" alt="" />
+                    </div>
+                    <div v-if="att.type.includes('audio')">
+                      <audio controls>
+                        <source :src="att.url" type="audio/mp3" />
+                      </audio>
+                    </div>
+                    <div v-if="att.type.includes('video')">
+                      <video width="320" height="240" controls>
+                        <source :src="att.url" type="video/mp4" />
+                      </video>
+                    </div>
+                  </li>
+                </ul>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-card>
       </div>
-      <v-expansion-panels>
-        <v-expansion-panel
-          v-for="(item,i) in 1"
-          :key="i"
-        >
-          <v-expansion-panel-header>
-            Attachments
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <ul class="attachment-list">
-              <li v-for="att in currentTodo.attachments" :key="att.id">
-                <div v-if="att.type.includes('image')">
-                  <img class="attached-img" :src="att.url" alt="" />
-                </div>
-                <div v-if="att.type.includes('audio')">
-                  <audio controls>
-                    <source :src="att.url" type="audio/mp3" />
-                  </audio>
-                </div>
-                <div v-if="att.type.includes('video')">
-                  <video width="320" height="240" controls>
-                    <source :src="att.url" type="video/mp4" />
-                  </video>
-                </div>
-              </li>
-            </ul>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
-    </v-card>
-  </div>
-  </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
-import { Prop, Watch } from 'vue-property-decorator';
+import { Prop, Watch } from "vue-property-decorator";
 import TodoItemC from "../components/TodoItemC.vue";
 import { TodoItem, IBaseFile } from "../store/todos/types";
 import { fileParse } from "../helpers/fileParse";
 import { v4 as uuidv4 } from "uuid";
-import { Route } from 'vue-router';
-
+import { Route } from "vue-router";
 
 @Component({
   components: {
-    TodoItemC
+    TodoItemC,
   },
 })
 export default class TodoDetailed extends Vue {
-  @Prop ({required:true}) id!: string
-  
+  @Prop({ required: true }) id!: string;
+
   fileInput: File | null = null;
+  public todoDescription = '';
 
   get currentTodo(): TodoItem {
     return this.$store.getters.getCurrentTodo(this.id);
   }
+  get todoText(): string {
+    return this.$store.getters.getCurrentTodoText(this.id);
+  }
+  
   public loadingStatus(): boolean {
     return this.$store.getters.getLoadingStatus();
   }
@@ -104,10 +107,7 @@ export default class TodoDetailed extends Vue {
     console.log(file);
     // this.addFile(fileParse(file));
     this.addFile(file);
-
   }
-
-
 
   public upperCase(value: string): string {
     const newValue = value.toUpperCase();
@@ -116,40 +116,43 @@ export default class TodoDetailed extends Vue {
 
   public addFile(file: File): void {
     // console.log(this.newTodo.id);
-    this.$store.dispatch("addFile", {id: this.currentTodo.id, file: file});
+    this.$store.dispatch("addFile", { id: this.currentTodo.id, file: file });
     // this.$store.commit("ADD_FILE", { id: this.currentTodo.id, file: file });
   }
 
   public changeTodoStatus(): void {
-    this.$router.push({name:"Home"});
+    this.$router.push({ name: "Home" });
     this.$store.commit("CHANGE_TODO_STATUS", this.currentTodo.id);
+  }
+  public addText(): void {
+    const text = this.todoDescription
+    this.$store.dispatch("addTodoDescription", { todo: this.currentTodo, text: text });
   }
 }
 </script>
 
 <style>
-.todo-item{
+.todo-item {
   margin: 45px;
   width: 550px;
-  margin: 100px auto;
+  margin: 190px auto;
 }
-.v-card{
-  background-color: #f8f8fa!important;
-  padding: 20px!important;
-
+.v-card {
+  background-color: #f8f8fa !important;
+  padding: 20px !important;
 }
 .checkbox-round {
-    width: 2em;
-    height: 2em;
-    background-color: white;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid #ddd;
-    -webkit-appearance: none;
-    outline: none;
-    cursor: pointer;
+  width: 2em;
+  height: 2em;
+  background-color: white;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
 }
-.checkbox-round::before{
+.checkbox-round::before {
   position: relative;
   content: "\2713";
   font-size: 28px;
@@ -158,22 +161,22 @@ export default class TodoDetailed extends Vue {
   color: white;
 }
 .checkbox-round:checked {
-    background-color: #66bb6a;
+  background-color: #66bb6a;
 }
-.task-title{
-      margin-left: 18px;
-    margin-top: 4px;
+.task-title {
+  margin-left: 18px;
+  margin-top: 4px;
 }
-.file-input{
+.file-input {
   width: 100%;
   height: 70px;
 }
-.input-title{
-    position: relative;
-    bottom: 52px;
-    left: 27px;
+.input-title {
+  position: relative;
+  bottom: 52px;
+  left: 27px;
 }
-.attachment-list li{
+.attachment-list li {
   list-style-type: none;
 }
 .lds-roller {
@@ -260,5 +263,4 @@ export default class TodoDetailed extends Vue {
     transform: rotate(360deg);
   }
 }
-
 </style>
